@@ -8,38 +8,38 @@ bool comp(const pair<int,int> &a,const pair<int,int> &b)
 {
 	if(a.second==6&&b.second==6)
 	{
-		return 0;
+		return (a.first>b.first);
 	}
 	else if(a.second==6)
 	{
-		return 1;
+		return 0;
 	}
 	else if(b.second==6)
 	{
-		return 0;
+		return 1;
 	}
 	else if(a.second==b.second)
 	{
 		if((a.first)%2&&(b.first)%2)
 		{
-			return((b.first)>b.first);
+			return((a.first)>b.first);
 		}
 		else if((a.first)%2)
 		{
-			return 0;
+			return 1;
 		}
 		else if((b.first)%2)
 		{
-			return 1;
+			return 0;
 		}
 		else
 		{
-			return(b.first>a.first);
+			return(a.first>b.first);
 		}
 	}
 	else
 	{
-		return (b.second>a.second);
+		return (a.second>b.second);
 	}
 	
 }
