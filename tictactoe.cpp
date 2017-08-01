@@ -3,6 +3,12 @@
 using namespace std;
 char s[3][3];
 int a[10]={0};
+int check();
+//////////
+bool com(const pair<int,int> &a,const pair<int,int> &b)
+{
+	return(a.second>b.second);
+}
 /////////
 bool comp(const pair<int,int> &a,const pair<int,int> &b)
 {
@@ -22,7 +28,7 @@ bool comp(const pair<int,int> &a,const pair<int,int> &b)
 	{
 		if((a.first)%2&&(b.first)%2)
 		{
-			return((a.first)>b.first);
+			return((b.first)>a.first);
 		}
 		else if((a.first)%2)
 		{
@@ -34,7 +40,7 @@ bool comp(const pair<int,int> &a,const pair<int,int> &b)
 		}
 		else
 		{
-			return(a.first>b.first);
+			return(a.second>b.second);
 		}
 	}
 	else
@@ -78,12 +84,29 @@ void intialize()
 	}
 	s[1][1]='X';
 	a[5]=3;
-	show();
 }
 
 ////////////////
 int move()
 {
+	int j=check();
+	if(j>0)
+	{
+		if(j==1)
+		{
+			cout<<"Computer Wins"<<endl;
+		
+		}
+		else if(j==2)
+		{
+			cout<<"You Win"<<endl;
+		}
+		else 
+		{
+			cout<<"Draw"<<endl;
+		}
+		return 0;
+	}
 	int k;
 	cout<<"Enter the Position at which you want to enter"<<endl;
 	do
@@ -108,7 +131,7 @@ int move()
 		s[2][k-7]='O';
 		a[k]=2;
 	}
-	show();
+	
 	return k;
 	
 }
@@ -152,6 +175,7 @@ int check()
 	}
 	return 3;
 }
+/////////////
 int work()
 {
 	int h[3]={0},v[3]={0},d1,d2;
@@ -237,7 +261,71 @@ int work()
 		poss.push_back(make_pair(9,d1));
 	}
 	sort(poss.begin(),poss.end(),comp);
-	int x=poss[0].first;
+	int ghj=0;
+		/*while(ghj<poss.size())
+		{
+			cout<<poss[ghj].first<<endl<<poss[ghj].second<<endl;
+			++ghj;
+		}*//*correct*/
+	
+		vector<int> fposs;
+		int i=0;
+		int qw=poss[0].second;
+		while(i<poss.size())
+		{
+			if(poss[i].second==qw)
+			{
+				fposs.push_back(poss[i].first);
+				//cout<<poss[i].first<<endl;//correct
+			}
+			else
+			{
+				break;
+			}
+			++i;
+		}
+		vector <pair<int,int> >fposs1;
+		i=0;
+		while(i<fposs.size())
+		{
+			int j=fposs[i];
+			//cout<<j<<endl;//correct
+			int fh=0;
+			int sum=0;
+			while(fh<poss.size())
+			{
+				
+				if(poss[fh].first==j)
+				{
+					if(poss[fh].second!=6)
+					{
+					if(poss[fh].second<=9)
+					{
+						sum=sum+poss[fh].second;
+						//cout<<sum<<endl;
+					}
+					}
+					else
+					{
+						sum=sum-1;
+					}
+					
+				}
+				++fh;
+			}
+			fposs1.push_back(make_pair(fposs[i],sum));
+			++i;
+		}
+		sort(fposs1.begin(),fposs1.end(),com);
+		/*ghj=0;
+		while(ghj<fposs1.size())
+		{
+			cout<<fposs1[ghj].first<<endl<<fposs1[ghj].second<<endl;
+			++ghj;
+		}*/
+	int	x=fposs1[0].first;
+	
+	
 	a[x]=3;
 	if(x<=3)
 	{
@@ -262,12 +350,15 @@ show();
 int k;
 do
 {
+	system("CLS");
+	show();
 	move();
 	k=work();
-	show();
+	
+	
 }
 while(k!=0);
-
+cout<<"Game Over"<<endl;
 
 	return 0;
 }
